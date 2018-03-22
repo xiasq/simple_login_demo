@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiasq.mapper.AdminMapper">
+
+    <resultMap id="adminMap" type="com.xiasq.bean.Admin">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+    </resultMap>
+    <select id="findByName" resultMap="adminMap">
+        SELECT id,name,password FROM t_admin WHERE name = #{name}
+    </select>
+
+    <insert id="insert">
+        INSERT into t_admin(name,password) values(
+        #{name},#{password})
+    </insert>
+</mapper>

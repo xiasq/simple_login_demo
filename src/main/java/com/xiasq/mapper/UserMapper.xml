@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiasq.mapper.UserMapper">
+
+    <sql id="baseColumn">
+        id,username,password,mobile,email,idcard,addr,lastLoginTime,cardType,idcardImgPath,language,introduction,birthday,sex
+    </sql>
+
+    <resultMap id="listMap" type="com.xiasq.bean.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="idcard" property="idcard"/>
+        <result column="addr" property="addr"/>
+        <result column="cardType" property="cardType"/>
+        <result column="idcardImgPath" property="idcardImgPath"/>
+        <result column="lastLoginTime" property="lastLoginTime"/>
+        <result column="language" property="language"/>
+        <result column="introduction" property="introduction"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+    </resultMap>
+    <select id="list" resultMap="listMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_user limit #{startLimit},#{endLimit}
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM t_user
+    </select>
+
+    <select id="findByUserId" resultMap="listMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_user where id = #{id}
+    </select>
+
+    <select id="findByUsername" resultMap="listMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_user where username = #{username}
+    </select>
+
+    <select id="findByMobile" resultMap="listMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_user where mobile = #{mobile}
+    </select>
+
+    <select id="findByIdcard" resultMap="listMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM t_user where idcard = #{idcard}
+    </select>
+
+    <insert id="insert">
+        INSERT into t_user(username,password,mobile,email,idcard,addr,lastLoginTime,cardType,idcardImgPath,language,introduction,birthday,sex) values(
+          #{username},#{password},#{mobile},#{email},#{idcard}, #{addr}
+         , #{lastLoginTime}, #{cardType}, #{idcardImgPath}, #{language}, #{introduction}, #{birthday}, #{sex}
+        )
+
+    </insert>
+
+    <delete id="deleteByUserId">
+        DELETE FROM t_user where id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.xiasq.bean.User" >
+        update t_user
+        <set >
+            <if test="username != null" >
+                username = #{username},
+            </if>
+            <if test="password != null" >
+                password = #{password},
+            </if>
+            <if test="mobile != null" >
+                mobile = #{mobile},
+            </if>
+
+            <if test="email != null" >
+                email = #{email},
+            </if>
+            <if test="idcard != null" >
+                idcard = #{idcard},
+            </if>
+            <if test="addr != null" >
+                addr = #{addr},
+            </if>
+            <if test="lastLoginTime != null" >
+                lastLoginTime = #{lastLoginTime},
+            </if>
+            <if test="cardType != null" >
+                cardType = #{cardType},
+            </if>
+            <if test="idcardImgPath != null" >
+                idcardImgPath = #{idcardImgPath},
+            </if>
+            <if test="language != null" >
+                language = #{language},
+            </if>
+            <if test="introduction != null" >
+                introduction = #{introduction},
+            </if>
+            <if test="birthday != null" >
+                birthday = #{birthday},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+
+    </update>
+
+    <update id="updateImagePath">
+        update t_user set idcardImgPath = #{filepath} where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
